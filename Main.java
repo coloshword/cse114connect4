@@ -55,6 +55,7 @@ public class Main {
                     System.out.print("|");
             }
             System.out.println();
+            System.out.println("...............");
         }
     }
     public static boolean gameContinue(Chip[][] array) {
