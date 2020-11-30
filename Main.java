@@ -82,6 +82,16 @@ public class Main {
                 }
             }
         }
+        // Check columns
+        for(int column = 0; column < array[0].length; column++) {
+            for(int row = 5; row > array.length / 2 - 1; row--) {
+                Chip chipToCheck = array[row][column];
+                if (chipToCheck.getSide() != '0' && chipToCheck.getSide() == array[row - 1][column].getSide() && chipToCheck.getSide() == array[row - 2][column].getSide() && chipToCheck.getSide() == array[row - 3][column].getSide()) {
+                    winMessage(chipToCheck.getColor());
+                    return false;
+                }
+            }
+        }
         return true;
     }
     public static void winMessage(String value) {
