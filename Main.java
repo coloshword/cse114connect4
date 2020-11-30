@@ -85,6 +85,6 @@ public class Main {
         return true;
     }
     public static void winMessage(String value) {
-        System.out.printf("%s wins\n");
+        System.out.printf("The %s player won.\n", value);
     }
 }
