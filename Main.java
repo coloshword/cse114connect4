@@ -23,22 +23,18 @@ public class Main {
     public static void placeChip(Chip[][] array, Column[] columnArray, int columnPlaced, String color) {
         // function puts chip in the right spot
         Column currentColumn = columnArray[columnPlaced];
-        if(currentColumn.isOpen()) {
-            array[currentColumn.placeChip()][columnPlaced] = new Chip(color);
-            currentColumn.stillOpen();
-        }
-        else {
+        if(!currentColumn.isOpen()) {
             Scanner input = new Scanner(System.in);
-            while(!currentColumn.isOpen()) {
+            while (!currentColumn.isOpen()) {
                 System.out.println("Column is full, choose another column");
                 displayGame(array);
                 System.out.print("Drop a " + color + " disk at column(0 - 6): ");
                 columnPlaced = input.nextInt();
                 currentColumn = columnArray[columnPlaced];
             }
-            array[currentColumn.placeChip()][columnPlaced] = new Chip(color);
-            currentColumn.stillOpen();
         }
+        array[currentColumn.placeChip()][columnPlaced] = new Chip(color);
+        currentColumn.stillOpen();
     }
     public static void displayGame(Chip[][] array) {
         for(int row = 0; row < array.length; row++) {
@@ -55,8 +51,8 @@ public class Main {
                     System.out.print("|");
             }
             System.out.println();
-            System.out.println("...............");
         }
+        System.out.println("...............");
     }
     public static boolean gameContinue(Chip[][] array) {
         return true;
