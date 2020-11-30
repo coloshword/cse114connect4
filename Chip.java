@@ -2,10 +2,19 @@
 public class Chip {
     private String color;
     private String display;
-    // constructor
+    private char YorR;
+    //constructor for empty chips
+    public Chip() {
+        YorR = '0';
+    }
+    // constructor for actual chip
     public Chip(String a) {
         color = a;
-        display = ("" + color.charAt(0)).toUpperCase();
+        YorR = color.charAt(0);
+        display = ("" + YorR).toUpperCase();
+    }
+    public char getSide() {
+        return YorR;
     }
     public String getColor() {
         return color;

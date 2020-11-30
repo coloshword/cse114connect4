@@ -3,6 +3,12 @@ public class Main {
     public static void main(String[] args) {
         // grid to store info
         Chip[][] grid = new Chip[6][7];
+        // fill grid with empty Chip objects
+        for(int row = 0; row < grid.length; row++) {
+            for(int column = 0; column < grid[row].length; column++) {
+                grid[row][column] = new Chip();
+            }
+        }
         //Create the column objects
         Column[] columns = new Column[7];
         for(int i = 0; i < columns.length; i++) {
@@ -49,7 +55,7 @@ public class Main {
         for(int row = 0; row < array.length; row++) {
             for(int column = 0; column < array[row].length; column++) {
                 String toPrint = " ";
-                if(array[row][column] == null) {
+                if(array[row][column].getSide() == '0') {
                     toPrint = " ";
                 }
                 else {
@@ -64,6 +70,21 @@ public class Main {
         System.out.println("...............");
     }
     public static boolean gameContinue(Chip[][] array) {
+        //check if game should continue
+        // can't think of a non naive implementation for now
+        // check rows
+        for(int row = 0; row < array.length; row++) {
+            for(int column = 0; column <= array[row].length / 2; column++) {
+                Chip chipToCheck = array[row][column];
+                if (chipToCheck.getSide() != '0' && chipToCheck.getSide() == array[row][column + 1].getSide() && chipToCheck.getSide() == array[row][column + 2].getSide() && chipToCheck.getSide() == array[row][column + 3].getSide()) {
+                    winMessage(chipToCheck.getColor());
+                    return false;
+                }
+            }
+        }
         return true;
+    }
+    public static void winMessage(String value) {
+        System.out.printf("%s wins\n");
     }
 }
