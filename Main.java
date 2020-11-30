@@ -31,9 +31,13 @@ public class Main {
             Scanner input = new Scanner(System.in);
             while(!currentColumn.isOpen()) {
                 System.out.println("Column is full, choose another column");
+                displayGame(array);
                 System.out.print("Drop a " + color + " disk at column(0 - 6): ");
-                currentColumn = columnArray[input.nextInt()];
+                columnPlaced = input.nextInt();
+                currentColumn = columnArray[columnPlaced];
             }
+            array[currentColumn.placeChip()][columnPlaced] = new Chip(color);
+            currentColumn.stillOpen();
         }
     }
     public static void displayGame(Chip[][] array) {
