@@ -16,6 +16,11 @@ public class Main {
             isRedTurn = !isRedTurn;
             System.out.print("Drop a " + value + " disk at column(0 - 6): ");
             int column = input.nextInt();
+            if(column > 6 || column < 0) {
+                System.out.println("Not a valid index, try again");
+                isRedTurn = !isRedTurn;
+                continue;
+            }
             placeChip(grid, columns, column, value);
             displayGame(grid);
         }
@@ -30,6 +35,10 @@ public class Main {
                 displayGame(array);
                 System.out.print("Drop a " + color + " disk at column(0 - 6): ");
                 columnPlaced = input.nextInt();
+                if(columnPlaced > 6 || columnPlaced < 0) {
+                    System.out.println("Not a valid index, try again");
+                    continue;
+                }
                 currentColumn = columnArray[columnPlaced];
             }
         }
