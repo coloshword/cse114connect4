@@ -6,7 +6,7 @@ public class Main {
         // fill grid with empty Chip objects
         for(int row = 0; row < grid.length; row++) {
             for(int column = 0; column < grid[row].length; column++) {
-                grid[row][column] = new Chip();
+                grid[row][column] = new Chip(row, column);
             }
         }
         //Create the column objects
@@ -17,7 +17,8 @@ public class Main {
         Scanner input = new Scanner(System.in);
         boolean isRedTurn = true;
         displayGame(grid);
-        while(gameContinue(grid)) {
+        Chip mostRecent = grid[0][0];
+        while(gameContinue(grid, mostRecent)) {
             String value = (isRedTurn) ? "red" : "yellow";
             isRedTurn = !isRedTurn;
             System.out.print("Drop a " + value + " disk at column(0 - 6): ");
@@ -27,11 +28,11 @@ public class Main {
                 isRedTurn = !isRedTurn;
                 continue;
             }
-            placeChip(grid, columns, column, value);
+            mostRecent = placeChip(grid, columns, column, value);
             displayGame(grid);
         }
     }
-    public static void placeChip(Chip[][] array, Column[] columnArray, int columnPlaced, String color) {
+    public static Chip placeChip(Chip[][] array, Column[] columnArray, int columnPlaced, String color) {
         // function puts chip in the right spot
         Column currentColumn = columnArray[columnPlaced];
         if(!currentColumn.isOpen()) {
@@ -48,8 +49,10 @@ public class Main {
                 currentColumn = columnArray[columnPlaced];
             }
         }
-        array[currentColumn.placeChip()][columnPlaced] = new Chip(color);
+        int placedRow = currentColumn.placeChip();
+        array[placedRow][columnPlaced] = new Chip(color, placedRow, columnPlaced);
         currentColumn.stillOpen();
+        return array[placedRow][columnPlaced];
     }
     public static void displayGame(Chip[][] array) {
         for(int row = 0; row < array.length; row++) {
@@ -69,31 +72,28 @@ public class Main {
         }
         System.out.println("...............");
     }
-    public static boolean gameContinue(Chip[][] array) {
-        //check if game should continue
-        // can't think of a non naive implementation for now
-        // check rows
-        for(int row = 0; row < array.length; row++) {
-            for(int column = 0; column <= array[row].length / 2; column++) {
-                Chip chipToCheck = array[row][column];
-                if (chipToCheck.getSide() != '0' && chipToCheck.getSide() == array[row][column + 1].getSide() && chipToCheck.getSide() == array[row][column + 2].getSide() && chipToCheck.getSide() == array[row][column + 3].getSide()) {
-                    winMessage(chipToCheck.getColor());
-                    return false;
-                }
+    public static boolean gameContinue(Chip[][] array, Chip current) {
+        int row = current.getLocation()[0];
+        for(int column = 0; column < array[row].length / 2 - 1; column++) {
+            Chip chipToCheck = array[row][column];
+            if(chipToCheck.getSide() != '0' && chipToCheck.getSide() == array[row][column + 1].getSide() && chipToCheck.getSide() == array[row][column + 2].getSide() && chipToCheck.getSide() == array[row][column + 3].getSide()) {
+                winMessage(chipToCheck.getColor());
+                return false;
             }
         }
         // Check columns
-        for(int column = 0; column < array[0].length; column++) {
-            for(int row = 5; row > array.length / 2 - 1; row--) {
-                Chip chipToCheck = array[row][column];
-                if (chipToCheck.getSide() != '0' && chipToCheck.getSide() == array[row - 1][column].getSide() && chipToCheck.getSide() == array[row - 2][column].getSide() && chipToCheck.getSide() == array[row - 3][column].getSide()) {
-                    winMessage(chipToCheck.getColor());
-                    return false;
-                }
+        int column = current.getLocation()[1];
+        System.out.println(column);
+        for(int i = 5; i > 2; i--) {
+            if(chipToCheck.getSide() != '0' && chipToCheck.getSide() == array[i - 1][column].getSide() && chipToCheck.getSide() == array[i - 2][column].getSide() && chipToCheck.getSide() == array[i - 3][column].getSide()) {
+                winMessage(chipToCheck.getColor());
+                return false;
             }
         }
+        // Check diagonals
         return true;
     }
+
     public static void winMessage(String value) {
         System.out.printf("The %s player won.\n", value);
     }
