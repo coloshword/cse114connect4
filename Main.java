@@ -71,6 +71,7 @@ public class Main {
             System.out.println();
         }
         System.out.println("...............");
+        System.out.println(" 0 1 2 3 4 5 6");
     }
     public static boolean gameContinue(Chip[][] array, Chip current) {
         int row = current.getLocation()[0];
@@ -92,12 +93,22 @@ public class Main {
         }
         // Check diagonals
         int[][] Diagonals = twoDiagonals(current.getLocation());
-        for(int i = 0; i < Diagonals.length; i++) {
-            for(int j = 0; j < Diagonals[i].length; j++) {
-                System.out.print(Diagonals[i][j] + " ");
+        // left to right diagonal first
+        for(int irow = Diagonals[0][0]; irow < 3; irow++) {
+            for(int icolumn = Diagonals[0][1]; icolumn < 4; icolumn++) {
+                Chip chipToCheck = array[irow][icolumn];
+                if(chipToCheck.getSide() != '0' && chipToCheck.getSide() == array[irow + 1][icolumn + 1].getSide() && chipToCheck.getSide() == array[irow + 2][icolumn + 2].getSide() && chipToCheck.getSide() == array[irow + 3][icolumn + 3].getSide()) {
+                    winMessage(chipToCheck.getColor());
+                    return false;
+                }
             }
-            System.out.println();
         }
+//        for(int i = 0; i < Diagonals.length; i++) {
+//            for(int j = 0; j < Diagonals[i].length; j++) {
+//                System.out.print(Diagonals[i][j] + " ");
+//            }
+//            System.out.println();
+//        }
         return true;
     }
     public static void winMessage(String value) {
