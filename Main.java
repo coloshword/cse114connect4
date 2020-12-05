@@ -83,18 +83,39 @@ public class Main {
         }
         // Check columns
         int column = current.getLocation()[1];
-        System.out.println(column);
         for(int i = 5; i > 2; i--) {
+            Chip chipToCheck = array[i][column];
             if(chipToCheck.getSide() != '0' && chipToCheck.getSide() == array[i - 1][column].getSide() && chipToCheck.getSide() == array[i - 2][column].getSide() && chipToCheck.getSide() == array[i - 3][column].getSide()) {
                 winMessage(chipToCheck.getColor());
                 return false;
             }
         }
         // Check diagonals
+        int[][] Diagonals = twoDiagonals(current.getLocation());
+        for(int i = 0; i < Diagonals.length; i++) {
+            for(int j = 0; j < Diagonals[i].length; j++) {
+                System.out.print(Diagonals[i][j] + " ");
+            }
+            System.out.println();
+        }
         return true;
     }
-
     public static void winMessage(String value) {
         System.out.printf("The %s player won.\n", value);
+    }
+    public static int[][] twoDiagonals(int[] loc) {
+        int subtract = Math.min(loc[0], loc[1]);
+        int[][] Diagonals = new int[2][2];
+        // left to right diagonal
+        Diagonals[0][0] = loc[0] - subtract;
+        Diagonals[0][1] = loc[1] - subtract;
+        // right to left diagonal
+        subtract = 6 - Math.min(loc[0], loc[1]);
+        if(subtract > Math.min(loc[0], loc[1])) {
+            subtract = Math.min(loc[0], loc[1]);
+        }
+        Diagonals[1][0] = loc[0] - subtract;
+        Diagonals[1][1] = loc[1] + subtract;
+        return Diagonals;
     }
 }
