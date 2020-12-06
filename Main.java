@@ -93,6 +93,8 @@ public class Main {
         }
         // Check diagonals
         int[][] Diagonals = twoDiagonals(current.getLocation());
+        System.out.println(Diagonals[0][0] + ", " + Diagonals[0][1]);
+        System.out.println(Diagonals[1][0] + ", " + Diagonals[1][1]);
         // left to right diagonal first
         for(int irow = Diagonals[0][0]; irow < 3; irow++) {
             for(int icolumn = Diagonals[0][1]; icolumn < 4; icolumn++) {
@@ -103,12 +105,15 @@ public class Main {
                 }
             }
         }
-//        for(int i = 0; i < Diagonals.length; i++) {
-//            for(int j = 0; j < Diagonals[i].length; j++) {
-//                System.out.print(Diagonals[i][j] + " ");
-//            }
-//            System.out.println();
-//        }
+        for(int irow = Diagonals[1][0]; irow < 3; irow++) {
+            for(int icolumn = Diagonals[1][1]; icolumn > 2; icolumn--) {
+                Chip chipToCheck = array[irow][icolumn];
+                if(chipToCheck.getSide() != '0' && chipToCheck.getSide() == array[irow + 1][icolumn - 1].getSide() && chipToCheck.getSide() == array[irow + 2][icolumn - 2].getSide() && chipToCheck.getSide() == array[irow + 3][icolumn - 3].getSide()) {
+                    winMessage(chipToCheck.getColor());
+                    return false;
+                }
+            }
+        }
         return true;
     }
     public static void winMessage(String value) {
@@ -117,16 +122,14 @@ public class Main {
     public static int[][] twoDiagonals(int[] loc) {
         int subtract = Math.min(loc[0], loc[1]);
         int[][] Diagonals = new int[2][2];
-        // left to right diagonal
         Diagonals[0][0] = loc[0] - subtract;
         Diagonals[0][1] = loc[1] - subtract;
-        // right to left diagonal
-        subtract = 6 - Math.min(loc[0], loc[1]);
-        if(subtract > Math.min(loc[0], loc[1])) {
-            subtract = Math.min(loc[0], loc[1]);
-        }
-        Diagonals[1][0] = loc[0] - subtract;
-        Diagonals[1][1] = loc[1] + subtract;
+        // get the new diagonal
+        int x = loc[0];
+        int y = loc[1];
+        subtract = Math.min(x, (6 - y));
+        Diagonals[1][0] = x - subtract;
+        Diagonals[1][1] = y + subtract;
         return Diagonals;
     }
 }
