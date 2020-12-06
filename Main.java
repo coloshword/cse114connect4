@@ -75,7 +75,7 @@ public class Main {
     }
     public static boolean gameContinue(Chip[][] array, Chip current) {
         int row = current.getLocation()[0];
-        for(int column = 0; column < array[row].length / 2 - 1; column++) {
+        for(int column = 0; column <= array[row].length / 2; column++) {
             Chip chipToCheck = array[row][column];
             if(chipToCheck.getSide() != '0' && chipToCheck.getSide() == array[row][column + 1].getSide() && chipToCheck.getSide() == array[row][column + 2].getSide() && chipToCheck.getSide() == array[row][column + 3].getSide()) {
                 winMessage(chipToCheck.getColor());
@@ -93,10 +93,8 @@ public class Main {
         }
         // Check diagonals
         int[][] Diagonals = twoDiagonals(current.getLocation());
-        System.out.println(Diagonals[0][0] + ", " + Diagonals[0][1]);
-        System.out.println(Diagonals[1][0] + ", " + Diagonals[1][1]);
         // left to right diagonal first
-        for(int irow = Diagonals[0][0]; irow < 3; irow++) {
+        for(int irow = Diagonals[0][0]; irow <= 3; irow++) {
             for(int icolumn = Diagonals[0][1]; icolumn < 4; icolumn++) {
                 Chip chipToCheck = array[irow][icolumn];
                 if(chipToCheck.getSide() != '0' && chipToCheck.getSide() == array[irow + 1][icolumn + 1].getSide() && chipToCheck.getSide() == array[irow + 2][icolumn + 2].getSide() && chipToCheck.getSide() == array[irow + 3][icolumn + 3].getSide()) {
